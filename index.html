@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enter Code to Download</title>
+    <script>
+        async function verifyCode() {
+            const userCode = document.getElementById("codeInput").value;
+            const response = await fetch("https://raw.githubusercontent.com/marktheshark1234/LANSchoolProject/main/code.json");
+            const data = await response.json();
+            
+            if (userCode === data.current_code) {
+                alert("Code correct! Redirecting...");
+                window.location.href = "https://github.com/marktheshark1234/LANSchoolProject/releases/download/v1.0/disable_lanschool.bat";
+                updateCode(); // Generate new code
+            } else {
+                alert("Invalid code. Try again.");
+            }
+        }
+
+        async function updateCode() {
+            const newCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+            const updatedData = { "current_code": newCode };
+
+            // You need to manually update this file in GitHub (or use GitHub Actions to automate)
+            console.log("New code generated:", newCode);
+        }
+    </script>
+</head>
+<body>
+    <h2>Enter Code to Download</h2>
+    <input type="text" id="codeInput" placeholder="Enter Code">
+    <button onclick="verifyCode()">Submit</button>
+</body>
+</html>
