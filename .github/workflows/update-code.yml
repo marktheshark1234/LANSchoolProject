@@ -1,0 +1,25 @@
+name: Update Code
+
+on:
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  update-code:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Generate New Code
+        run: |
+          NEW_CODE=$(openssl rand -hex 3 | tr 'a-f' 'A-F')
+          echo "{ \"current_code\": \"$NEW_CODE\" }" > code.json
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add code.json
+          git commit -m "Updated Code to $NEW_CODE"
+          git push
